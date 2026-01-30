@@ -1,14 +1,13 @@
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
 
-public class timer2 : MonoBehaviour
+public class Timer : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timerText;
+    [SerializeField] float initialTime = 60f;
 
-    [SerializeField] float initialTime;   // tiempo inicial del primer contador
     float remainingTime;
-
-    float secondTimerTime;                // tiempo del segundo contador
+    float secondTimerTime;
     bool secondTimerActive = false;
 
     void Start()
@@ -18,41 +17,32 @@ public class timer2 : MonoBehaviour
 
     void Update()
     {
-      
         if (!secondTimerActive)
         {
             remainingTime -= Time.deltaTime;
-            int seconds = Mathf.FloorToInt(remainingTime);
-
-           
-            if (seconds <= 20)
-            {
-               
-                float timeReduced =  remainingTime;
-
-
-                secondTimerTime = 0f + timeReduced;
-
-                secondTimerActive = true;
-                return;
-            }
-
-            timerText.text = seconds.ToString("00");
+            timerText.text = Mathf.FloorToInt(remainingTime).ToString("00");
         }
-     
         else
         {
             secondTimerTime -= Time.deltaTime;
-            int seconds = Mathf.FloorToInt(secondTimerTime);
 
-            if (seconds <= 0)
-            {
-                seconds = 0;
-                secondTimerActive = false; 
-            }
+            if (secondTimerTime < 0)
+                secondTimerTime = 0;
 
-            timerText.text = seconds.ToString("00");
+            timerText.text = Mathf.FloorToInt(secondTimerTime).ToString("00");
         }
     }
+
+    // 🔥 LLAMADO DESDE EL PLAYER
+    public void ActivateSecondTimer()
+    {
+        if (secondTimerActive) return;
+
+        float timeReduced = initialTime - remainingTime;
+        secondTimerTime = 10f + timeReduced;
+        secondTimerActive = true;
+    }
 }
+
+
 
