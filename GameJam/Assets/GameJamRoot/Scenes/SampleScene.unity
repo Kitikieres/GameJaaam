@@ -3650,7 +3650,7 @@ MonoBehaviour:
   groundDistance: 0.2
   groundLayer:
     serializedVersion: 2
-    m_Bits: 8
+    m_Bits: 0
 --- !u!61 &1971078086
 BoxCollider2D:
   m_ObjectHideFlags: 0

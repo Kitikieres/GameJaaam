@@ -1,31 +1,18 @@
 using UnityEngine;
 
-public class PlayerDeathOnSpikes : MonoBehaviour
+public class Spikes2D : MonoBehaviour
 {
-    [Header("Death Settings")]
-    public bool instantDeath = true;
-
-    private bool isDead = false;
-
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        if (isDead) return;
-
-      
-        if (other.CompareTag("Spikes"))
+        if (other.CompareTag("Player"))
         {
-            Die();
+            Debug.Log("El jugador murió");
+
+            
+            other.gameObject.SetActive(false);
+
+         
         }
     }
-
-    void Die()
-    {
-        isDead = true;
-
-        Debug.Log("El jugador ha muerto");
-
-
-        gameObject.SetActive(false);
-
-    }
 }
+

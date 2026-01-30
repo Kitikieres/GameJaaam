@@ -1,29 +1,29 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class SimplePlayerController : MonoBehaviour
+public class SimplePlayerController2D : MonoBehaviour
 {
     [Header("Movement")]
-    public float moveSpeed = 5f;
-    public float jumpForce = 7f;
+    public float moveSpeed = 6f;
+    public float jumpForce = 12f;
 
     [Header("Ground Check")]
     public Transform groundCheck;
-    public float groundDistance = 0.2f;
+    public float groundRadius = 0.2f;
     public LayerMask groundLayer;
 
-    private Rigidbody rb;
+    private Rigidbody2D rb;
+    private Vector2 moveInput;
     private bool isGrounded;
 
-    void Start()
+    void Awake()
     {
-        rb = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     void Update()
     {
         CheckGround();
-        Jump();
     }
 
     void FixedUpdate()
@@ -31,31 +31,33 @@ public class SimplePlayerController : MonoBehaviour
         Move();
     }
 
-    void Move()
+    // INPUT SYSTEM
+    public void OnMove(InputAction.CallbackContext context)
     {
-        float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
-
-        Vector3 move = new Vector3(moveX, 0f, moveZ) * moveSpeed;
-        Vector3 velocity = new Vector3(move.x, rb.linearVelocity.y, move.z);
-
-        rb.linearVelocity = velocity;
+        moveInput = context.ReadValue<Vector2>();
     }
 
-    void Jump()
+    public void OnJump(InputAction.CallbackContext context)
     {
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (context.performed && isGrounded)
         {
-            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
+            rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
         }
+    }
+
+    void Move()
+    {
+        rb.linearVelocity = new Vector2(moveInput.x * moveSpeed, rb.linearVelocity.y);
     }
 
     void CheckGround()
     {
-        isGrounded = Physics.CheckSphere(
+        isGrounded = Physics2D.OverlapCircle(
             groundCheck.position,
-            groundDistance,
+            groundRadius,
             groundLayer
         );
     }
 }
+
