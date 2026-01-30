@@ -33,7 +33,7 @@ public class Timer : MonoBehaviour
         }
     }
 
-    // 🔥 LLAMADO DESDE EL PLAYER
+  
     public void ActivateSecondTimer()
     {
         if (secondTimerActive) return;
