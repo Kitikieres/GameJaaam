@@ -9,6 +9,9 @@ public class MaskFusion2D : MonoBehaviour
     public Transform fusionPoint;
     public Sprite fullMaskSprite;
 
+    [Header("Finish Line")]
+    public GameObject FinishLinePhy; // ← arrastrar FinishLine_Phy aquí
+
     private bool _isFused;
 
     private PlayerMovement _playerMovement;
@@ -21,8 +24,11 @@ public class MaskFusion2D : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _cameraCinematic = Camera.main.GetComponent<CameraCinematic2D>();
 
-        // Arreglado: usar FindFirstObjectByType en vez de FindObjectOfType
         _timer = FindFirstObjectByType<Timer>();
+
+        // Desactivar meta al inicio
+        if (FinishLinePhy != null)
+            FinishLinePhy.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -69,6 +75,10 @@ public class MaskFusion2D : MonoBehaviour
         if (_timer != null)
             _timer.ActivateSecondTimer();
 
-        Debug.Log(" FUSIÓN COMPLETA ");
+        // 🔥 ACTIVAR META
+        if (FinishLinePhy != null)
+            FinishLinePhy.SetActive(true);
+
+        Debug.Log("✨ FUSIÓN COMPLETA → META ACTIVADA ✨");
     }
 }

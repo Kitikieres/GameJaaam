@@ -12,6 +12,8 @@ public class PlayerRespawn2D : MonoBehaviour
     public float respawnDelay = 1.5f;
 
     private bool isDead = false;
+    private Vector3 _dynamicRespawnPosition; // ← NUEVO
+    private bool _useDynamicRespawn = false; // ← NUEVO
 
     Rigidbody2D rb;
     Collider2D[] colliders;
@@ -22,19 +24,24 @@ public class PlayerRespawn2D : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         colliders = GetComponentsInChildren<Collider2D>();
         sr = GetComponentInChildren<SpriteRenderer>();
-
         currentHealth = maxHealth;
     }
 
     void Update()
     {
-        
         if (InputManager.RespawnWasPressed)
         {
-            Debug.Log("RESPAWN FORZADO CON R");
+            Debug.Log("🔄 RESPAWN FORZADO CON R");
             StopAllCoroutines();
             ForceRespawn();
         }
+    }
+
+    // ← NUEVO MÉTODO
+    public void UpdateRespawnPoint(Vector3 newPosition)
+    {
+        _dynamicRespawnPosition = newPosition;
+        _useDynamicRespawn = true;
     }
 
     public void TakeDamage(int damage)
@@ -42,7 +49,7 @@ public class PlayerRespawn2D : MonoBehaviour
         if (isDead) return;
 
         currentHealth -= damage;
-        Debug.Log("Vida: " + currentHealth);
+        Debug.Log("❤️ Vida: " + currentHealth);
 
         if (currentHealth <= 0)
         {
@@ -56,8 +63,7 @@ public class PlayerRespawn2D : MonoBehaviour
 
         isDead = true;
         currentHealth = 0;
-
-        Debug.Log("PLAYER MUERTO");
+        Debug.Log("💀 PLAYER MUERTO");
 
         rb.linearVelocity = Vector2.zero;
         rb.simulated = false;
@@ -78,13 +84,17 @@ public class PlayerRespawn2D : MonoBehaviour
 
     void ForceRespawn()
     {
-        Debug.Log("PLAYER RESPAWNEADO");
+        Debug.Log("✅ PLAYER RESPAWNEADO");
 
         isDead = false;
         currentHealth = maxHealth;
 
-        transform.position = respawnPoint.position;
+        // ← MODIFICADO: Usar posición dinámica si está disponible
+        Vector3 targetPosition = _useDynamicRespawn
+            ? _dynamicRespawnPosition
+            : respawnPoint.position;
 
+        transform.position = targetPosition;
         rb.linearVelocity = Vector2.zero;
         rb.simulated = true;
 
