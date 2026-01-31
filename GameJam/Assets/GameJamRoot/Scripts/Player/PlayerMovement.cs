@@ -108,7 +108,10 @@ public class PlayerMovement : MonoBehaviour
         _isFacingRight = right;
         transform.Rotate(0f, 180f, 0f);
     }
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     #region Jump
     private void JumpChecks()
     {
@@ -121,6 +124,52 @@ public class PlayerMovement : MonoBehaviour
                 _isJumping = true;
             }
         }
+<<<<<<< Updated upstream
+=======
+        // Initiate jump with jump buffering and coyote time
+        if (_jumpBufferTimer > 0f && !_isJumping && (_isGrounded || _coyoteTimer > 0f))
+        {
+            Debug.Log("SALTANDO!"); // DEBUG
+            InitiateJump(1);
+            if (_jumpReleaseDuringBuffer)
+            {
+                _isFastFalling = true;
+                _fastFallReleaseSpeed = VerticalVelocity;
+            }
+
+        }
+        // Double jump
+        else if (_jumpBufferTimer > 0f && (_isJumping || _isAirDashing || _isDashFastFalling) && _numberOfJumpsUsed < MoveStats.NumberOfJumpsAllowed)
+        {
+            _isFastFalling = false;
+            InitiateJump(1);
+
+            if (_isDashFastFalling)
+            {
+                _isDashFastFalling = false;
+            }
+        }
+
+        // Air Jump after coyote time lapsed
+        else if (_jumpBufferTimer > 0f && _isFastFalling && _numberOfJumpsUsed < MoveStats.NumberOfJumpsAllowed - 1)
+        {
+            InitiateJump(2);
+            _isFastFalling = false;
+
+        }
+
+    }
+    private void InitiateJump(int numberOfJumpsUsed)
+    {
+        if (!_isJumping)
+        {
+            _isJumping = true;
+        }
+
+        _jumpBufferTimer = 0f;
+        _numberOfJumpsUsed += numberOfJumpsUsed;
+        VerticalVelocity = MoveStats.InitialJumpVelocity;
+>>>>>>> Stashed changes
     }
 
     private void Jump()
@@ -152,6 +201,66 @@ public class PlayerMovement : MonoBehaviour
             _numberOfDashesUsed++;
         }
     }
+<<<<<<< Updated upstream
+=======
+    private void InitiateDash()
+    {
+        _dashDirection = InputManager.Movement;
+
+        Vector2 closestDirection = Vector2.zero;
+        float minDistance = Vector2.Distance(_dashDirection, MoveStats.DashDirections[0]);
+
+        for (int i = 0; i < MoveStats.DashDirections.Length; i++)
+        {
+            // skip if we hit it bang on 
+            if (_dashDirection == MoveStats.DashDirections[i])
+            {
+                closestDirection = _dashDirection;
+                break;
+            }
+
+            float distance = Vector2.Distance(_dashDirection, MoveStats.DashDirections[i]);
+
+            // Check if this is a diagonal direcion and apply bias
+
+            bool isDiagonal = (Mathf.Abs(MoveStats.DashDirections[i].x) == 1 && Mathf.Abs(MoveStats.DashDirections[i].y) == 1);
+            if (isDiagonal)
+            {
+                distance -= MoveStats.DashDiagonallyBias;
+            }
+
+            else if (distance < minDistance)
+            {
+                minDistance = distance;
+                closestDirection = MoveStats.DashDirections[i];
+            }
+
+            // Handle direction with NO input
+
+            if (closestDirection == Vector2.zero)
+            {
+                if (_isFacingRight)
+                {
+                    closestDirection = Vector2.right;
+                }
+                else
+                {
+                    closestDirection = Vector2.left;
+                }
+
+            }
+        }
+
+        _dashDirection = closestDirection;
+        _numberOfDashesUsed++;
+        _isDashing = true;
+        _dashTimer = 0f;
+        _dashOnGroundTimer = MoveStats.TimeBtwDashesOnGround;
+
+        ResetJumpValues();
+    }
+
+>>>>>>> Stashed changes
 
     private void Dash()
     {
@@ -166,7 +275,67 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
+<<<<<<< Updated upstream
     #region Collision
+=======
+    #region CollisionChecks
+
+    private void isGrounded()
+    {
+        Vector2 boxCastOrigin = new Vector2(_feetColl.bounds.center.x, _feetColl.bounds.min.y);
+        Vector2 boxCastSize = new Vector2(_feetColl.bounds.size.x, MoveStats.GroundDetectionRayLength);
+
+        _groundHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, MoveStats.GroundDetectionRayLength, MoveStats.GroundLayer);
+
+        // DEBUG - Quitar después
+        Debug.DrawRay(boxCastOrigin, Vector2.down * MoveStats.GroundDetectionRayLength, Color.red);
+
+        if (_groundHit.collider != null)
+        {
+            _isGrounded = true;
+            Debug.Log("TOCANDO SUELO: " + _groundHit.collider.name);
+        }
+        else
+        {
+            _isGrounded = false;
+        }
+    }
+    private void Bumpedhead()
+    {
+        Vector2 boxCastOrigin = new Vector2(_feetColl.bounds.center.x, _bodyColl.bounds.max.y);
+        Vector2 boxCastSize = new Vector2(_feetColl.bounds.size.x * MoveStats.HeadWidht, MoveStats.HeadDetectionRayLength);
+
+        _headHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.up, MoveStats.HeadDetectionRayLength, MoveStats.GroundLayer);
+        if (_headHit.collider != null)
+        {
+            _bumpedHead = true;
+        }
+        else
+        {
+            _bumpedHead = false;
+        }
+
+        #region Debug Visualization
+
+        if (MoveStats.DebugShowHeadBumpBox)
+        {
+            float headWidth = MoveStats.HeadWidht;
+
+            Color rayColor;
+            if (_bumpedHead)
+            {
+                rayColor = Color.green;
+            }
+            else { rayColor = Color.red; }
+
+            Debug.DrawRay(new Vector2(boxCastOrigin.x - boxCastSize.x / 2 * headWidth, boxCastOrigin.y), Vector2.up * MoveStats.HeadDetectionRayLength, rayColor);
+            Debug.DrawRay(new Vector2(boxCastOrigin.x + (boxCastSize.x / 2) * headWidth, boxCastOrigin.y), Vector2.up * MoveStats.HeadDetectionRayLength, rayColor);
+            Debug.DrawRay(new Vector2(boxCastOrigin.x - boxCastSize.x / 2 * headWidth, boxCastOrigin.y + MoveStats.HeadDetectionRayLength), Vector2.right * boxCastSize.x * headWidth, rayColor); ;
+        }
+
+        #endregion
+    }
+>>>>>>> Stashed changes
     private void CollisionChecks()
     {
         _isGrounded = Physics2D.OverlapBox(
