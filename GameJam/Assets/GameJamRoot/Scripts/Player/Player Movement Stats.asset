@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87830aa6700d8934bb837d028bf5fed7, type: 3}
   m_Name: Player Movement Stats
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovementStats
-  MaxWalkSpeed: 12.5
+  MoveThreshold: 0.25
+  MaxWalkSpeed: 10
   GroundAcceleration: 5
   GroundDeceleration: 10
   AirAcceleration: 5
@@ -21,24 +22,32 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 64
-  GroundDetectionRayLength: 0.02
+  GroundDetectionRayLength: 1
   HeadDetectionRayLength: 0.3
-  HeadWidht: 0.75
-  JumpHeight: 6.5
-  JumpHeightCompensationFactor: 1.054
-  TimeTillJumpApex: 0.35
-  GravityOnReleaseMultiplier: 2
-  MaxFallSpeed: 26
-  NumberOfJumpsAllowed: 2
-  TimeForUpwardsCancel: 0.027
+  HeadWidht: 1
+  JumpHeight: 3
+  JumpHeightCompensationFactor: 1.0504
+  TimeTillJumpApex: 0.25
+  GravityOnReleaseMultiplier: 4.09
+  MaxFallSpeed: 30
+  NumberOfJumpsAllowed: 1
+  TimeForUpwardsCancel: 0.02
   ApexThreshold: 0.97
-  ApexHangTime: 0.075
-  JumpBufferTime: 0.125
+  ApexHangTime: 0.011
+  JumpBufferTime: 0.15
   JumpCoyoteTime: 0.1
+  DashTime: 0.11
+  DashSpeed: 40
+  TimeBtwDashesOnGround: 0.225
+  ResetDashOnWallSlide: 1
+  NumberOfDashes: 2
+  DashDiagonallyBias: 0.4
+  DashGravityOnReleaseMultiplier: 1
+  DashTimeForUpwardsCancel: 0.027
   DebugShowIsGroundedBox: 0
   DebugShowHeadBumpBox: 0
-  ShowWalkJumpArc: 0
-  ShowRunJumpArc: 0
+  ShowWalkJumpArc: 1
+  ShowRunJumpArc: 1
   StopOnCollision: 1
   DrawRight: 0
   ArcResolution: 20
