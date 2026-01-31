@@ -125,7 +125,6 @@ public class PlayerMovement : MonoBehaviour
     {
         _hasMask = true;
 
-        // Aplicar bonuses post-máscara si están habilitados
         if (MoveStats.EnablePostMaskBonuses)
         {
             _speedMultiplier = MoveStats.PostMaskSpeedMultiplier;
@@ -141,6 +140,16 @@ public class PlayerMovement : MonoBehaviour
     public bool HasMask()
     {
         return _hasMask;
+    }
+
+    // NUEVO - Para el trampolín
+    public void TrampolineBounce(float bounceForce)
+    {
+        VerticalVelocity = bounceForce;
+        _isJumping = true;
+        _isFalling = false;
+        _isFastFalling = false;
+        _numberOfJumpsUsed = 0;
     }
 
     #endregion
@@ -692,6 +701,7 @@ public class PlayerMovement : MonoBehaviour
             _dashOnGroundTimer -= Time.deltaTime;
         }
     }
-
     #endregion
+
+
 }
