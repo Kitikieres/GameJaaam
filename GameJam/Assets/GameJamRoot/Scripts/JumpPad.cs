@@ -2,20 +2,15 @@ using UnityEngine;
 
 public class Trampoline2D : MonoBehaviour
 {
-    public float bounceForce = 14f;
+    public float bounceVelocity = 18f;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
-        {
-            Rigidbody2D rb = other.GetComponent<Rigidbody2D>();
+        if (!other.CompareTag("Player")) return;
 
-            if (rb != null)
-            {
-                rb.linearVelocity = new Vector2(rb.linearVelocity.x, 0f);
-                rb.AddForce(Vector2.up * bounceForce, ForceMode2D.Impulse);
-            }
-        }
+        PlayerMovement player = other.GetComponent<PlayerMovement>();
+        if (player == null) return;
+
+        player.TrampolineBounce(bounceVelocity);
     }
 }
-

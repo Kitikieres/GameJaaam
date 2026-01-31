@@ -11,32 +11,25 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D _rb;
 
-    
     public float HorizontalVelocity { get; private set; }
     public float VerticalVelocity { get; private set; }
+
     private bool _isFacingRight;
-
-    
     private bool _isGrounded;
-    private bool _bumpedHead;
-
-    
     private bool _isJumping;
-    private bool _isFastFalling;
     private bool _isFalling;
+
     private int _numberOfJumpsUsed;
 
-    
     private bool _isDashing;
     private float _dashTimer;
     private Vector2 _dashDirection;
-    private int _numberOfDashesUsed;
 
-    
     private bool _isFused;
-
-    
     private bool _movementLocked;
+
+    private bool _overrideVertical;
+    private float _overrideVerticalValue;
 
     private void Awake()
     {
@@ -59,48 +52,57 @@ public class PlayerMovement : MonoBehaviour
         }
 
         CollisionChecks();
-        Jump();
-        Fall();
-        Dash();
 
-        if (_isGrounded)
-            Move(MoveStats.GroundAcceleration, MoveStats.GroundDeceleration, InputManager.Movement);
+        if (_overrideVertical)
+        {
+            VerticalVelocity = _overrideVerticalValue;
+            _overrideVertical = false;
+        }
         else
-            Move(MoveStats.AirAcceleration, MoveStats.AirDeceleration, InputManager.Movement);
+        {
+            Jump();
+            Fall();
+        }
 
+        Dash();
+        Move();
         ApplyVelocity();
     }
 
-    private void ApplyVelocity()
-    {
-        VerticalVelocity = Mathf.Clamp(VerticalVelocity, -MoveStats.MaxFallSpeed, 50f);
-        _rb.linearVelocity = new Vector2(HorizontalVelocity, VerticalVelocity);
-    }
-
-    private void Move(float acceleration, float deceleration, Vector2 input)
+    private void Move()
     {
         if (_isDashing) return;
 
-        if (Mathf.Abs(input.x) >= MoveStats.MoveThreshold)
+        float inputX = InputManager.Movement.x;
+
+        if (Mathf.Abs(inputX) > MoveStats.MoveThreshold)
         {
-            TurnCheck(input);
+            TurnCheck(inputX);
 
             float targetSpeed = InputManager.RunIsHeld
-                ? input.x * MoveStats.MaxRunSpeed
-                : input.x * MoveStats.MaxWalkSpeed;
+                ? inputX * MoveStats.MaxRunSpeed
+                : inputX * MoveStats.MaxWalkSpeed;
 
-            HorizontalVelocity = Mathf.Lerp(HorizontalVelocity, targetSpeed, acceleration * Time.fixedDeltaTime);
+            HorizontalVelocity = Mathf.Lerp(
+                HorizontalVelocity,
+                targetSpeed,
+                MoveStats.GroundAcceleration * Time.fixedDeltaTime
+            );
         }
         else
         {
-            HorizontalVelocity = Mathf.Lerp(HorizontalVelocity, 0f, deceleration * Time.fixedDeltaTime);
+            HorizontalVelocity = Mathf.Lerp(
+                HorizontalVelocity,
+                0f,
+                MoveStats.GroundDeceleration * Time.fixedDeltaTime
+            );
         }
     }
 
-    private void TurnCheck(Vector2 input)
+    private void TurnCheck(float inputX)
     {
-        if (_isFacingRight && input.x < 0f) Turn(false);
-        else if (!_isFacingRight && input.x > 0f) Turn(true);
+        if (_isFacingRight && inputX < 0f) Turn(false);
+        else if (!_isFacingRight && inputX > 0f) Turn(true);
     }
 
     private void Turn(bool right)
@@ -109,7 +111,6 @@ public class PlayerMovement : MonoBehaviour
         transform.Rotate(0f, 180f, 0f);
     }
 
-    #region Jump
     private void JumpChecks()
     {
         if (InputManager.JumpWasPressed)
@@ -134,9 +135,7 @@ public class PlayerMovement : MonoBehaviour
         if (!_isGrounded && !_isJumping && !_isDashing)
             VerticalVelocity += MoveStats.Gravity * Time.fixedDeltaTime;
     }
-    #endregion
 
-    #region Dash
     private void DashCheck()
     {
         if (!_isFused) return;
@@ -149,7 +148,6 @@ public class PlayerMovement : MonoBehaviour
                 _dashDirection = _isFacingRight ? Vector2.right : Vector2.left;
 
             _dashTimer = MoveStats.DashTime;
-            _numberOfDashesUsed++;
         }
     }
 
@@ -164,9 +162,7 @@ public class PlayerMovement : MonoBehaviour
         if (_dashTimer <= 0f)
             _isDashing = false;
     }
-    #endregion
 
-    #region Collision
     private void CollisionChecks()
     {
         _isGrounded = Physics2D.OverlapBox(
@@ -179,20 +175,27 @@ public class PlayerMovement : MonoBehaviour
         if (_isGrounded)
         {
             _numberOfJumpsUsed = 0;
-            _numberOfDashesUsed = 0;
             _isJumping = false;
+            _isFalling = false;
         }
     }
-    #endregion
 
-    
+    private void ApplyVelocity()
+    {
+        VerticalVelocity = Mathf.Clamp(
+            VerticalVelocity,
+            -MoveStats.MaxFallSpeed,
+            50f
+        );
+
+        _rb.linearVelocity = new Vector2(HorizontalVelocity, VerticalVelocity);
+    }
+
     public void FuseWithMask()
     {
         _isFused = true;
-        Debug.Log("🔥 Máscara completa: dash y doble salto activados");
     }
 
-   
     public void SetMovementLocked(bool locked)
     {
         _movementLocked = locked;
@@ -201,5 +204,14 @@ public class PlayerMovement : MonoBehaviour
             HorizontalVelocity = 0f;
             VerticalVelocity = 0f;
         }
+    }
+
+    public void TrampolineBounce(float velocity)
+    {
+        _overrideVertical = true;
+        _overrideVerticalValue = velocity;
+        _isJumping = true;
+        _isFalling = false;
+        _numberOfJumpsUsed = 0;
     }
 }
