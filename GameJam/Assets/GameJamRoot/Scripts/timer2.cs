@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using TMPro;
-
+using UnityEngine.UI;
 public class Timer : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timerText;
-    [SerializeField] float initialTime = 60f;
-    [SerializeField] float initialTime2 = 60f;
+    [SerializeField] private Slider slider;
+    [SerializeField] float initialTime = 10f;
+    [SerializeField] float initialTime2 = 0f;
     float remainingTime;
     float secondTimerTime;
     bool secondTimerActive = false;
@@ -13,16 +14,19 @@ public class Timer : MonoBehaviour
     void Start()
     {
         remainingTime = initialTime;
+       
     }
 
     void Update()
     {
         if (!secondTimerActive)
         {
+           
             remainingTime -= Time.deltaTime;
             if (remainingTime < 0) remainingTime = 0;
 
             timerText.text = Mathf.FloorToInt(remainingTime).ToString("00");
+            slider.maxValue = remainingTime;
         }
         else
         {
