@@ -44,6 +44,18 @@ public class PlayerMovementStats : ScriptableObject
     [Header("Jump Coyote Time")]
     [Range(0f, 1f)] public float JumpCoyoteTime = 0.1f;
 
+    [Header("Dash")]
+    [Range(0f, 1f)] public float DashTime = 0.11f;
+    [Range(1f, 200f)] public float DashSpeed = 40f;
+    [Range(0f, 1f)] public float TimeBtwDashesOnGround = 0.225f;
+    public bool ResetDashOnWallSlide = true;
+    [Range(0, 5)] public int NumberOfDashes = 2;
+    [Range(0f, 0.5f)] public float DashDiagonallyBias = 0.4f;
+
+    [Header("Dash Cancel Time")]
+    [Range(0.01f, 5f)] public float DashGravityOnReleaseMultiplier = 1f;
+    [Range(0.02f, 0.3f)] public float DashTimeForUpwardsCancel = 0.027f;
+
     [Header("Debug")]
     public bool DebugShowIsGroundedBox;
     public bool DebugShowHeadBumpBox;
@@ -55,6 +67,21 @@ public class PlayerMovementStats : ScriptableObject
     public bool DrawRight = true;
     [Range(5,100)] public int ArcResolution = 20;
     [Range(0, 500)] public int VisualizationSteps = 90;
+
+    public readonly Vector2[] DashDirections = new Vector2[]
+    {
+        new Vector2(0,0), //Nothing
+        new Vector2(1,0), //Right
+        new Vector2(1,1).normalized, //TOP-Right
+        new Vector2(0,1), //Up
+        new Vector2(-1,1).normalized, //TOP-Left
+        new Vector2(-1,0), //Left
+        new Vector2(-1,-1).normalized, //BOTTOM-Left
+        new Vector2(0,-1), //Down
+        new Vector2(1,-1).normalized, //BOTTOM-Right
+
+    };
+
 
     public float Gravity { get; private set; }
     public float InitialJumpVelocity { get; private set; }

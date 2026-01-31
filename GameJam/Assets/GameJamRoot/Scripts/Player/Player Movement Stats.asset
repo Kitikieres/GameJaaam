@@ -26,9 +26,13 @@ MonoBehaviour:
   HeadWidht: 0.75
   JumpHeight: 6.5
   JumpHeightCompensationFactor: 1.054
+  TimeTillJumpApex: 0.35
+  GravityOnReleaseMultiplier: 2
   MaxFallSpeed: 26
   NumberOfJumpsAllowed: 2
   TimeForUpwardsCancel: 0.027
+  ApexThreshold: 0.97
+  ApexHangTime: 0.075
   JumpBufferTime: 0.125
   JumpCoyoteTime: 0.1
   DebugShowIsGroundedBox: 0
@@ -36,6 +40,6 @@ MonoBehaviour:
   ShowWalkJumpArc: 0
   ShowRunJumpArc: 0
   StopOnCollision: 1
-  DrawRight: 1
+  DrawRight: 0
   ArcResolution: 20
   VisualizationSteps: 90
