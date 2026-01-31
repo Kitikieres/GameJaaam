@@ -6,8 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/GameJamRoot/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+    path: Assets/GameJamRoot/Scenes/SCN_MainMenu.unity
+    guid: d02b37d334425e049a6c594e615e122c
+  - enabled: 1
+    path: Assets/GameJamRoot/Scenes/Levels/Level1.unity
+    guid: 1ddb6e1fed304084da2adbcaa3cec89a
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: eb4d5ecab3e4b6e4497260d6543d8312, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
