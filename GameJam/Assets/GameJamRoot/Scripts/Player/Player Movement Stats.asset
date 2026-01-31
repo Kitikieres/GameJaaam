@@ -30,22 +30,24 @@ MonoBehaviour:
   TimeTillJumpApex: 0.25
   GravityOnReleaseMultiplier: 4.09
   MaxFallSpeed: 30
-  NumberOfJumpsAllowed: 1
   TimeForUpwardsCancel: 0.02
   ApexThreshold: 0.97
   ApexHangTime: 0.011
   JumpBufferTime: 0.15
-  JumpCoyoteTime: 1
+  JumpCoyoteTime: 0.5
   DashTime: 0.15
   DashSpeed: 20
   TimeBtwDashesOnGround: 0.2
-  ResetDashOnWallSlide: 1
   NumberOfDashes: 1
   DashDiagonallyBias: 0.4
   DashGravityOnReleaseMultiplier: 1
   DashTimeForUpwardsCancel: 0.027
+  EnablePostMaskBonuses: 0
+  PostMaskSpeedMultiplier: 1.2
+  PostMaskJumpMultiplier: 1.1
   DebugShowIsGroundedBox: 0
   DebugShowHeadBumpBox: 0
+  DebugShowJumpInfo: 0
   ShowWalkJumpArc: 1
   ShowRunJumpArc: 1
   StopOnCollision: 1
