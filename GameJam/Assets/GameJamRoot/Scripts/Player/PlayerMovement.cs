@@ -230,7 +230,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void JumpChecks()
     {
-        // When whe press the jump button
+        // DEBUG - Quitar después
+        if (InputManager.JumpWasPressed)
+        {
+            Debug.Log("Jump presionado! isGrounded: " + _isGrounded + " | coyoteTimer: " + _coyoteTimer);
+        }
+
+        // When we press the jump button
         if (InputManager.JumpWasPressed)
         {
             _jumpBufferTimer = MoveStats.JumpBufferTime;
@@ -263,6 +269,7 @@ public class PlayerMovement : MonoBehaviour
         // Initiate jump with jump buffering and coyote time
         if (_jumpBufferTimer > 0f && !_isJumping && (_isGrounded || _coyoteTimer > 0f))
         {
+            Debug.Log("SALTANDO!"); // DEBUG
             InitiateJump(1);
             if (_jumpReleaseDuringBuffer)
             {
@@ -294,7 +301,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
     }
-
     private void InitiateJump(int numberOfJumpsUsed)
     {
         if (!_isJumping)
@@ -558,19 +564,23 @@ public class PlayerMovement : MonoBehaviour
 
     private void isGrounded()
     {
-        Vector2 boxCastOrigin = new Vector2(_feetColl.bounds.center.x, _feetColl.bounds.center.y);
+        Vector2 boxCastOrigin = new Vector2(_feetColl.bounds.center.x, _feetColl.bounds.min.y);
         Vector2 boxCastSize = new Vector2(_feetColl.bounds.size.x, MoveStats.GroundDetectionRayLength);
 
         _groundHit = Physics2D.BoxCast(boxCastOrigin, boxCastSize, 0f, Vector2.down, MoveStats.GroundDetectionRayLength, MoveStats.GroundLayer);
+
+        // DEBUG - Quitar después
+        Debug.DrawRay(boxCastOrigin, Vector2.down * MoveStats.GroundDetectionRayLength, Color.red);
+
         if (_groundHit.collider != null)
         {
             _isGrounded = true;
+            Debug.Log("TOCANDO SUELO: " + _groundHit.collider.name);
         }
         else
         {
             _isGrounded = false;
         }
-
     }
 
     private void Bumpedhead()
