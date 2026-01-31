@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PlayerRespawn2D : MonoBehaviour
 {
@@ -7,20 +7,33 @@ public class PlayerRespawn2D : MonoBehaviour
     public int maxHealth = 100;
     public int currentHealth;
 
+    [Header("Respawn")]
+    public Transform respawnPoint;
+    public float respawnDelay = 1.5f;
+
     private bool isDead = false;
+
+    Rigidbody2D rb;
+    Collider2D[] colliders;
+    SpriteRenderer sr;
 
     void Awake()
     {
+        rb = GetComponent<Rigidbody2D>();
+        colliders = GetComponentsInChildren<Collider2D>();
+        sr = GetComponentInChildren<SpriteRenderer>();
+
         currentHealth = maxHealth;
     }
 
     void Update()
     {
-        // 🔁 REINICIAR NIVEL CON R (vivo o muerto)
+        // 🔥 RESPAWN SIEMPRE CON R (vivo o muerto)
         if (InputManager.RespawnWasPressed)
         {
-            Debug.Log("Reinicio de nivel con R");
-            RestartLevel();
+            Debug.Log("RESPAWN FORZADO CON R");
+            StopAllCoroutines();
+            ForceRespawn();
         }
     }
 
@@ -42,14 +55,42 @@ public class PlayerRespawn2D : MonoBehaviour
         if (isDead) return;
 
         isDead = true;
-        Debug.Log("Jugador muerto → reiniciando nivel");
+        currentHealth = 0;
 
-        RestartLevel();
+        Debug.Log("PLAYER MUERTO");
+
+        rb.linearVelocity = Vector2.zero;
+        rb.simulated = false;
+
+        foreach (Collider2D c in colliders)
+            c.enabled = false;
+
+        sr.enabled = false;
+
+        StartCoroutine(RespawnCoroutine());
     }
 
-    void RestartLevel()
+    IEnumerator RespawnCoroutine()
     {
-        // Reinicia la escena actual
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        yield return new WaitForSeconds(respawnDelay);
+        ForceRespawn();
+    }
+
+    void ForceRespawn()
+    {
+        Debug.Log("PLAYER RESPAWNEADO");
+
+        isDead = false;
+        currentHealth = maxHealth;
+
+        transform.position = respawnPoint.position;
+
+        rb.linearVelocity = Vector2.zero;
+        rb.simulated = true;
+
+        foreach (Collider2D c in colliders)
+            c.enabled = true;
+
+        sr.enabled = true;
     }
 }
