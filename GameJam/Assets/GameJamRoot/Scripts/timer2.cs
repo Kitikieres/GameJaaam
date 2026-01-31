@@ -5,7 +5,7 @@ public class Timer : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI timerText;
     [SerializeField] float initialTime = 60f;
-
+    [SerializeField] float initialTime2 = 60f;
     float remainingTime;
     float secondTimerTime;
     bool secondTimerActive = false;
@@ -33,15 +33,18 @@ public class Timer : MonoBehaviour
         }
     }
 
-    // 🔥 LLAMADO DESDE EL PLAYER
+   
     public void ActivateSecondTimer()
     {
         if (secondTimerActive) return;
 
-        float timeReduced = initialTime - remainingTime;
-        secondTimerTime = 10f + timeReduced;
+        
+        secondTimerTime = remainingTime;
+
         secondTimerActive = true;
+        Debug.Log("yeiiii");
     }
+
 }
 
 
