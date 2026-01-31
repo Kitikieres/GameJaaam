@@ -15,7 +15,6 @@ public class CameraCinematic2D : MonoBehaviour
     private void Awake()
     {
         _cam = GetComponent<Camera>();
-        _cam.orthographic = true;
         _cam.orthographicSize = normalZoom;
     }
 
