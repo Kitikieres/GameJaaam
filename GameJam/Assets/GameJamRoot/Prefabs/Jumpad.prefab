@@ -150,4 +150,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 675aa60281d2bf646b6ed0808c5f8968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Trampoline2D
-  bounceVelocity: 25
+  bounceVelocity: 400
