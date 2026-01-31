@@ -28,7 +28,7 @@ public class PlayerRespawn2D : MonoBehaviour
 
     void Update()
     {
-        // 🔥 RESPAWN SIEMPRE CON R (vivo o muerto)
+        
         if (InputManager.RespawnWasPressed)
         {
             Debug.Log("RESPAWN FORZADO CON R");
