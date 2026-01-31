@@ -1,6 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 
@@ -28,7 +27,6 @@ public class PlayerMovement : MonoBehaviour
     // Jump vars
 
     public float VerticalVelocity { get; private set; }
-    public int VericalVelocity { get; private set; }
 
     private bool _isJumping;
     private bool _isFastFalling;
@@ -92,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
             Move(MoveStats.GroundAcceleration, MoveStats.GroundDeceleration, InputManager.Movement);
         }
         else
-        { 
+        {
             Move(MoveStats.AirAcceleration, MoveStats.AirDeceleration, InputManager.Movement);
         }
 
@@ -110,7 +108,7 @@ public class PlayerMovement : MonoBehaviour
         {
             VerticalVelocity = Mathf.Clamp(VerticalVelocity, -50f, 50f);
         }
-            _rb.linearVelocity = new Vector2(HorizontalVelocity, VerticalVelocity);
+        _rb.linearVelocity = new Vector2(HorizontalVelocity, VerticalVelocity);
 
     }
 
@@ -144,18 +142,18 @@ public class PlayerMovement : MonoBehaviour
                 }
                 else { targetVelocity = moveInput.x * MoveStats.MaxWalkSpeed; }
 
-                HorizontalVelocity = Mathf.Lerp(HorizontalVelocity, 0, acceleration * Time.deltaTime);
+                HorizontalVelocity = Mathf.Lerp(HorizontalVelocity, targetVelocity, acceleration * Time.fixedDeltaTime);
             }
 
             else if (Mathf.Abs(moveInput.x) < MoveStats.MoveThreshold)
             {
-                HorizontalVelocity = Mathf.Lerp(HorizontalVelocity, 0f, deceleration * Time.deltaTime);
+                HorizontalVelocity = Mathf.Lerp(HorizontalVelocity, 0f, deceleration * Time.fixedDeltaTime);
             }
         }
     }
     private void TurnCheck(Vector2 moveInput)
     {
-        if (_isFacingRight && moveInput.x <0f)
+        if (_isFacingRight && moveInput.x < 0f)
         {
             Turn(false);
         }
@@ -171,12 +169,12 @@ public class PlayerMovement : MonoBehaviour
         if (turnRight)
         {
             _isFacingRight = true;
-            transform.Rotate(0f, 100f, 0f);
+            transform.Rotate(0f, 180f, 0f);
         }
         else
         {
             _isFacingRight = false;
-            transform.Rotate(0f, -100f, 0f);
+            transform.Rotate(0f, 180f, 0f);
         }
     }
     #endregion
@@ -256,9 +254,9 @@ public class PlayerMovement : MonoBehaviour
                     VerticalVelocity = 0f;
                 }
                 else
-                { 
+                {
                     _isFastFalling = true;
-                    _fastFallReleaseSpeed = VerticalVelocity; 
+                    _fastFallReleaseSpeed = VerticalVelocity;
                 }
             }
         }
@@ -276,20 +274,20 @@ public class PlayerMovement : MonoBehaviour
 
 
         // Double jump
-        else if (_jumpBufferTimer > 0f && ( _isJumping || _isAirDashing || _isDashFastFalling) && _numberOfJumpsUsed < MoveStats.NumberOfJumpsAllowed)
+        else if (_jumpBufferTimer > 0f && (_isJumping || _isAirDashing || _isDashFastFalling) && _numberOfJumpsUsed < MoveStats.NumberOfJumpsAllowed)
         {
             _isFastFalling = false;
             InitiateJump(1);
 
             if (_isDashFastFalling)
-            { 
+            {
                 _isDashFastFalling = false;
             }
         }
 
         // Air Jump after coyote time lapsed
         else if (_jumpBufferTimer > 0f && _isFastFalling && _numberOfJumpsUsed < MoveStats.NumberOfJumpsAllowed - 1)
-        { 
+        {
             InitiateJump(2);
             _isFastFalling = false;
 
@@ -300,7 +298,7 @@ public class PlayerMovement : MonoBehaviour
     private void InitiateJump(int numberOfJumpsUsed)
     {
         if (!_isJumping)
-        { 
+        {
             _isJumping = true;
         }
 
@@ -413,7 +411,7 @@ public class PlayerMovement : MonoBehaviour
 
             // air dash
             else if (!_isGrounded && !_isDashing && _numberOfDashesUsed < MoveStats.NumberOfDashes)
-            { 
+            {
                 _isAirDashing = true;
                 InitiateDash();
             }
@@ -440,14 +438,14 @@ public class PlayerMovement : MonoBehaviour
 
             // Check if this is a diagonal direcion and apply bias
 
-            bool isDiagonal = (Mathf.Abs(MoveStats.DashDirections[i].x) == 1 && Mathf.Abs(MoveStats.DashDirections[i].y)==1);
+            bool isDiagonal = (Mathf.Abs(MoveStats.DashDirections[i].x) == 1 && Mathf.Abs(MoveStats.DashDirections[i].y) == 1);
             if (isDiagonal)
             {
                 distance -= MoveStats.DashDiagonallyBias;
             }
 
             else if (distance < minDistance)
-            { 
+            {
                 minDistance = distance;
                 closestDirection = MoveStats.DashDirections[i];
             }
@@ -461,10 +459,10 @@ public class PlayerMovement : MonoBehaviour
                     closestDirection = Vector2.right;
                 }
                 else
-                {  
+                {
                     closestDirection = Vector2.left;
                 }
-                
+
             }
         }
 
@@ -544,14 +542,14 @@ public class PlayerMovement : MonoBehaviour
 
 
     private void ResetDashValues()
-    { 
+    {
         _isDashFastFalling = false;
         _dashOnGroundTimer = -0.01f;
     }
 
     private void ResetDashes()
-    { 
-        _numberOfDashesUsed = 0;    
+    {
+        _numberOfDashesUsed = 0;
     }
 
     #endregion
@@ -585,9 +583,9 @@ public class PlayerMovement : MonoBehaviour
         {
             _bumpedHead = true;
         }
-        else 
-        { 
-            _bumpedHead = false; 
+        else
+        {
+            _bumpedHead = false;
         }
 
         #region Debug Visualization
@@ -603,7 +601,7 @@ public class PlayerMovement : MonoBehaviour
             }
             else { rayColor = Color.red; }
 
-            Debug.DrawRay(new Vector2(boxCastOrigin.x - boxCastSize.x / 2 *  headWidth, boxCastOrigin.y), Vector2.up * MoveStats.HeadDetectionRayLength, rayColor);
+            Debug.DrawRay(new Vector2(boxCastOrigin.x - boxCastSize.x / 2 * headWidth, boxCastOrigin.y), Vector2.up * MoveStats.HeadDetectionRayLength, rayColor);
             Debug.DrawRay(new Vector2(boxCastOrigin.x + (boxCastSize.x / 2) * headWidth, boxCastOrigin.y), Vector2.up * MoveStats.HeadDetectionRayLength, rayColor);
             Debug.DrawRay(new Vector2(boxCastOrigin.x - boxCastSize.x / 2 * headWidth, boxCastOrigin.y + MoveStats.HeadDetectionRayLength), Vector2.right * boxCastSize.x * headWidth, rayColor); ;
         }
@@ -626,14 +624,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void DrawJumpArc(float moveSpeed, Color gizmoColor)
     {
-        Vector2 startPosition = new Vector2 (_feetColl.bounds.center.x, _feetColl.bounds.min.y);
+        Vector2 startPosition = new Vector2(_feetColl.bounds.center.x, _feetColl.bounds.min.y);
         Vector2 previousPosition = startPosition;
         float speed = 0f;
         if (MoveStats.DrawRight)
         {
             speed = moveSpeed;
         }
-        else { speed  = -moveSpeed; }
+        else { speed = -moveSpeed; }
         Vector2 velocity = new Vector2(speed, MoveStats.InitialJumpVelocity);
 
         Gizmos.color = gizmoColor;
@@ -678,7 +676,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
 
-            Gizmos.DrawLine (previousPosition, drawPoint);
+            Gizmos.DrawLine(previousPosition, drawPoint);
             previousPosition = drawPoint;
         }
     }
@@ -703,7 +701,7 @@ public class PlayerMovement : MonoBehaviour
         // Dash timer
 
         if (_isGrounded)
-        { 
+        {
             _dashOnGroundTimer -= Time.deltaTime;
         }
     }
