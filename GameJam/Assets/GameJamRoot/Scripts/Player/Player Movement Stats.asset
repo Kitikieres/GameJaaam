@@ -22,9 +22,9 @@ MonoBehaviour:
   GroundLayer:
     serializedVersion: 2
     m_Bits: 64
-  GroundDetectionRayLength: 0.5
+  GroundDetectionRayLength: 1
   HeadDetectionRayLength: 0.3
-  HeadWidht: 0.75
+  HeadWidht: 1
   JumpHeight: 6.5
   JumpHeightCompensationFactor: 1.054
   TimeTillJumpApex: 0.35
@@ -46,8 +46,8 @@ MonoBehaviour:
   DashTimeForUpwardsCancel: 0.027
   DebugShowIsGroundedBox: 0
   DebugShowHeadBumpBox: 0
-  ShowWalkJumpArc: 0
-  ShowRunJumpArc: 0
+  ShowWalkJumpArc: 1
+  ShowRunJumpArc: 1
   StopOnCollision: 1
   DrawRight: 0
   ArcResolution: 20
