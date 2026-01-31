@@ -11,31 +11,31 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D _rb;
 
-    // Movement vars
+    
     public float HorizontalVelocity { get; private set; }
     public float VerticalVelocity { get; private set; }
     private bool _isFacingRight;
 
-    // Collision vars
+    
     private bool _isGrounded;
     private bool _bumpedHead;
 
-    // Jump vars
+    
     private bool _isJumping;
     private bool _isFastFalling;
     private bool _isFalling;
     private int _numberOfJumpsUsed;
 
-    // Dash vars
+    
     private bool _isDashing;
     private float _dashTimer;
     private Vector2 _dashDirection;
     private int _numberOfDashesUsed;
 
-    // Mask / fusion
+    
     private bool _isFused;
 
-    // 🔒 Movement lock (CLAVE PARA CINEMÁTICAS)
+    
     private bool _movementLocked;
 
     private void Awake()
@@ -74,7 +74,7 @@ public class PlayerMovement : MonoBehaviour
     private void ApplyVelocity()
     {
         VerticalVelocity = Mathf.Clamp(VerticalVelocity, -MoveStats.MaxFallSpeed, 50f);
-        _rb.velocity = new Vector2(HorizontalVelocity, VerticalVelocity);
+        _rb.linearVelocity = new Vector2(HorizontalVelocity, VerticalVelocity);
     }
 
     private void Move(float acceleration, float deceleration, Vector2 input)
@@ -185,14 +185,14 @@ public class PlayerMovement : MonoBehaviour
     }
     #endregion
 
-    // 🔓 LLAMADO DESDE LA MÁSCARA
+    
     public void FuseWithMask()
     {
         _isFused = true;
-        Debug.Log("🔥 Máscara completa: dash y doble salto activados");
+        
     }
 
-    // 🔒 USADO POR LA CINEMÁTICA
+    
     public void SetMovementLocked(bool locked)
     {
         _movementLocked = locked;
