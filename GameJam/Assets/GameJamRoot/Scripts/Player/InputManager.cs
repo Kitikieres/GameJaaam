@@ -13,10 +13,6 @@ public class InputManager : MonoBehaviour
     public static bool JumpWasReleased;
     public static bool RunIsHeld;
     public static bool DashWasPressed;
-    public static bool RespawnWasPressed;
-
-
-    
 
     private InputAction _moveAction;
     private InputAction _jumpAction;
@@ -36,7 +32,6 @@ public class InputManager : MonoBehaviour
 
     private void Update()
     {
-        RespawnWasPressed = Keyboard.current.rKey.wasPressedThisFrame;
         Movement = _moveAction.ReadValue<Vector2>();
 
         JumpWasPressed = _jumpAction.WasPressedThisFrame();
