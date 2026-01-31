@@ -20,19 +20,18 @@ public class Timer : MonoBehaviour
         if (!secondTimerActive)
         {
             remainingTime -= Time.deltaTime;
+            if (remainingTime < 0) remainingTime = 0;
+
             timerText.text = Mathf.FloorToInt(remainingTime).ToString("00");
         }
         else
         {
             secondTimerTime -= Time.deltaTime;
-
-            if (secondTimerTime < 0)
-                secondTimerTime = 0;
+            if (secondTimerTime < 0) secondTimerTime = 0;
 
             timerText.text = Mathf.FloorToInt(secondTimerTime).ToString("00");
         }
     }
-
     public void ActivateSecondTimer()
     {
         if (secondTimerActive) return;

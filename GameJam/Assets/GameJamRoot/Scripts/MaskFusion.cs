@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class MaskFusion2D : MonoBehaviour
 {
+
+    private Timer _timer;
     [Header("Fusion Settings")]
     public Transform fusionPoint;
     public Sprite fullMaskSprite;
@@ -18,6 +20,8 @@ public class MaskFusion2D : MonoBehaviour
         _playerMovement = GetComponent<PlayerMovement>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _cameraCinematic = Camera.main.GetComponent<CameraCinematic2D>();
+
+        _timer = FindObjectOfType<Timer>(); // 👈 buscamos el Timer en escena
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -62,6 +66,10 @@ public class MaskFusion2D : MonoBehaviour
         }
 
         _playerMovement.FuseWithMask();
+
+        // 🔥 AQUÍ activamos el segundo temporizador
+        if (_timer != null)
+            _timer.ActivateSecondTimer();
 
         Debug.Log("✨ FUSIÓN COMPLETA ✨");
     }
