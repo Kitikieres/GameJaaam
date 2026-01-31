@@ -11,6 +11,8 @@ public class LevelMove : MonoBehaviour
     {
         print("Trigger Entered");
 
+
+
         if (other.tag == "Player")
         {
             print("Switching Scene to" + sceneBuilIndex);
