@@ -10,18 +10,18 @@ public class MaskFusion2D : MonoBehaviour
     public Sprite fullMaskSprite;
 
     private bool _isFused;
-
     private PlayerMovement _playerMovement;
     private SpriteRenderer _spriteRenderer;
     private CameraCinematic2D _cameraCinematic;
+    private PlayerRespawn2D _playerRespawn; // ← NUEVO
 
     private void Awake()
     {
         _playerMovement = GetComponent<PlayerMovement>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _cameraCinematic = Camera.main.GetComponent<CameraCinematic2D>();
+        _playerRespawn = GetComponent<PlayerRespawn2D>(); // ← NUEVO
 
-        // Arreglado: usar FindFirstObjectByType en vez de FindObjectOfType
         _timer = FindFirstObjectByType<Timer>();
     }
 
@@ -36,7 +36,6 @@ public class MaskFusion2D : MonoBehaviour
     private IEnumerator FusionSequence(GameObject otherHalf)
     {
         _isFused = true;
-
         _playerMovement.SetMovementLocked(true);
 
         if (_cameraCinematic != null)
@@ -69,6 +68,13 @@ public class MaskFusion2D : MonoBehaviour
         if (_timer != null)
             _timer.ActivateSecondTimer();
 
-        Debug.Log(" FUSIÓN COMPLETA ");
+        // ← NUEVO: Actualizar punto de respawn a la posición actual
+        if (_playerRespawn != null)
+        {
+            _playerRespawn.UpdateRespawnPoint(transform.position);
+            Debug.Log("🎭 Punto de respawn actualizado a posición de la máscara");
+        }
+
+        Debug.Log("✨ FUSIÓN COMPLETA");
     }
 }
