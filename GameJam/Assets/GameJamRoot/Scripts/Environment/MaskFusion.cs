@@ -9,9 +9,6 @@ public class MaskFusion2D : MonoBehaviour
     public Transform fusionPoint;
     public Sprite fullMaskSprite;
 
-    [Header("Goal Line")]
-    public GameObject FinishLine; // 👉 Línea de meta que se activará
-
     private bool _isFused;
 
     private PlayerMovement _playerMovement;
@@ -22,17 +19,10 @@ public class MaskFusion2D : MonoBehaviour
     {
         _playerMovement = GetComponent<PlayerMovement>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _cameraCinematic = Camera.main.GetComponent<CameraCinematic2D>();
 
-        // Cámara
-        if (Camera.main != null)
-            _cameraCinematic = Camera.main.GetComponent<CameraCinematic2D>();
-
-        // Timer
-        _timer = FindObjectOfType<Timer>();
-
-        // Aseguramos que la meta esté desactivada al inicio
-        if (FinishLine != null)
-            FinishLine.SetActive(false);
+        // Arreglado: usar FindFirstObjectByType en vez de FindObjectOfType
+        _timer = FindFirstObjectByType<Timer>();
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -40,64 +30,45 @@ public class MaskFusion2D : MonoBehaviour
         if (_isFused) return;
 
         if (other.CompareTag("MaskHalf"))
-        {
             StartCoroutine(FusionSequence(other.gameObject));
-        }
     }
 
     private IEnumerator FusionSequence(GameObject otherHalf)
     {
         _isFused = true;
 
-        // Bloquear movimiento
-        if (_playerMovement != null)
-            _playerMovement.SetMovementLocked(true);
+        _playerMovement.SetMovementLocked(true);
 
-        // Cinemática de cámara
         if (_cameraCinematic != null)
             yield return StartCoroutine(_cameraCinematic.PlayFusionCinematic());
 
-        // Fusión real
         Fuse(otherHalf);
 
-        // Desbloquear movimiento
-        if (_playerMovement != null)
-            _playerMovement.SetMovementLocked(false);
+        _playerMovement.SetMovementLocked(false);
     }
 
     private void Fuse(GameObject otherHalf)
     {
-        // Desactivar collider de la otra mitad
         Collider2D col = otherHalf.GetComponent<Collider2D>();
-        if (col != null) col.enabled = false;
+        if (col) col.enabled = false;
 
-        // Quitar rigidbody
         Rigidbody2D rb = otherHalf.GetComponent<Rigidbody2D>();
-        if (rb != null) Destroy(rb);
+        if (rb) Destroy(rb);
 
-        // Parent + posición
         otherHalf.transform.SetParent(transform);
         otherHalf.transform.position = fusionPoint != null ? fusionPoint.position : transform.position;
 
-        // Cambiar sprite a máscara completa
-        if (fullMaskSprite != null && _spriteRenderer != null)
+        if (fullMaskSprite != null)
         {
             _spriteRenderer.sprite = fullMaskSprite;
             otherHalf.SetActive(false);
         }
 
-        // Activar estado fused en el player
-        if (_playerMovement != null)
-            _playerMovement.FuseWithMask();
+        _playerMovement.FuseWithMask();
 
-        // Activar segundo temporizador
         if (_timer != null)
             _timer.ActivateSecondTimer();
 
-        // 🔥 ACTIVAR LÍNEA DE META
-        if (goalLine != null)
-            goalLine.SetActive(true);
-
-        Debug.Log("✨ FUSIÓN COMPLETA - META ACTIVADA ✨");
+        Debug.Log(" FUSIÓN COMPLETA ");
     }
 }
