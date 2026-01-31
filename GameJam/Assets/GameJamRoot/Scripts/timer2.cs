@@ -33,11 +33,6 @@ public class Timer : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
-   
-=======
-  
->>>>>>> 24e17b2716e46da9c8bf7bb7f5a15e67ff3aca96
     public void ActivateSecondTimer()
     {
         if (secondTimerActive) return;
