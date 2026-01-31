@@ -1,16 +1,19 @@
 using UnityEngine;
 
-public class Trampoline2D : MonoBehaviour
+public class JumpPad : MonoBehaviour
 {
-    public float bounceVelocity = 18f;
+    [SerializeField] private float bounceVelocity = 25f;
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (!other.CompareTag("Player")) return;
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerMovement player = collision.gameObject.GetComponent<PlayerMovement>();
 
-        PlayerMovement player = other.GetComponent<PlayerMovement>();
-        if (player == null) return;
-
-        player.TrampolineBounce(bounceVelocity);
+            if (player != null)
+            {
+                player.TrampolineBounce(bounceVelocity);
+            }
+        }
     }
 }
