@@ -680,7 +680,13 @@ public class PlayerMovement : MonoBehaviour
             previousPosition = drawPoint;
         }
     }
-
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("meta"))
+        {
+            FindObjectOfType<Timer>().ActivateSecondTimer();
+        }
+    }
     #region Timers
 
     private void CounterTimers()
