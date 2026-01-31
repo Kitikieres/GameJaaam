@@ -470,10 +470,25 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8102573799673282214, guid: da1c10a5c12ce274dbe09a0727f4f1b9, type: 3}
+      propertyPath: m_ActionEvents.Array.data[0].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8102573799673282214, guid: da1c10a5c12ce274dbe09a0727f4f1b9, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8396106617672191130, guid: da1c10a5c12ce274dbe09a0727f4f1b9, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 300388406640700785, guid: da1c10a5c12ce274dbe09a0727f4f1b9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1287914016}
+    - targetCorrespondingSourceObject: {fileID: 300388406640700785, guid: da1c10a5c12ce274dbe09a0727f4f1b9, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1287914017}
   m_SourcePrefab: {fileID: 100100000, guid: da1c10a5c12ce274dbe09a0727f4f1b9, type: 3}
 --- !u!1 &519420028
 GameObject:
@@ -2129,6 +2144,41 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1287914009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 300388406640700785, guid: da1c10a5c12ce274dbe09a0727f4f1b9, type: 3}
+  m_PrefabInstance: {fileID: 491646019}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1287914016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287914009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe1446d24c3da1843ae2c7f0bb0a05b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  MoveStats: {fileID: 0}
+  _feetColl: {fileID: 0}
+  _bodyColl: {fileID: 0}
+--- !u!114 &1287914017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1287914009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2232d61e54a8c7444b5a0f816be38c17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerController
+  MoveStats: {fileID: 11400000, guid: c52ff4fb5aeba684cb59c93cb47ae7d3, type: 2}
+  _feetColl: {fileID: 0}
+  _bodyColl: {fileID: 0}
 --- !u!1 &1318987111
 GameObject:
   m_ObjectHideFlags: 0
