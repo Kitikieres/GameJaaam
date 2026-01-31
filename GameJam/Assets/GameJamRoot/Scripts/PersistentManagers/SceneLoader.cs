@@ -20,11 +20,9 @@ public class SceneLoader : MonoBehaviour
 
     [Header("Scene Names")]
     [SerializeField] private string mainMenuSceneName = "MainMenu";
-    [SerializeField] private string LobbySceneName = "Lobby";
     [SerializeField] private string firstLevelSceneName = "Level_01";
     [SerializeField] private string secondLevelSceneName = "Level_02";
     [SerializeField] private string thirdLevelSceneName = "Level_03";
-    [SerializeField] private string finalSceneName = "Level_Final";
 
 
     private bool isLoading = false;
