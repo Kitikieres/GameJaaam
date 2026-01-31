@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "PlayerMovement")]
-
 public class PlayerMovementStats : ScriptableObject
 {
     [Header("Walker")]
