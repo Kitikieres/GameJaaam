@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.SceneManagement;  
+using System.Collections;  
 
 public class PlayerRespawn2D : MonoBehaviour
 {
@@ -33,7 +34,7 @@ public class PlayerRespawn2D : MonoBehaviour
         {
             Debug.Log("RESPAWN FORZADO CON R");
             StopAllCoroutines();
-            ForceRespawn();
+            RestartLevel();
         }
     }
 
@@ -73,7 +74,16 @@ public class PlayerRespawn2D : MonoBehaviour
     IEnumerator RespawnCoroutine()
     {
         yield return new WaitForSeconds(respawnDelay);
-        ForceRespawn();
+        RestartLevel();
+    }
+
+    
+    void RestartLevel()
+    {
+        Debug.Log("NIVEL REINICIADO");
+
+       
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     void ForceRespawn()
