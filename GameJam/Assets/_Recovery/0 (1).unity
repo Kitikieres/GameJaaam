@@ -1127,14 +1127,6 @@ MonoBehaviour:
   target: {fileID: 1821229388}
   offset: {x: 0, y: 0}
   smoothTime: 0.15
-  useConfiner: 1
-  minBounds: {x: -29.1, y: -12.4}
-  maxBounds: {x: 144.2, y: 10.8}
-  useDeadZone: 1
-  topDeadZone: 2
-  bottomDeadZone: 0
-  showBoundsGizmos: 1
-  showDeadZoneGizmos: 1
 --- !u!1001 &535464054
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5302,11 +5294,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6902380036208290964, guid: e7810602734f54c4a99e692793c32a30, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -25.27
+      value: 134.84
       objectReference: {fileID: 0}
     - target: {fileID: 6902380036208290964, guid: e7810602734f54c4a99e692793c32a30, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.17
+      value: 4.44
       objectReference: {fileID: 0}
     - target: {fileID: 6902380036208290964, guid: e7810602734f54c4a99e692793c32a30, type: 3}
       propertyPath: m_LocalPosition.z
