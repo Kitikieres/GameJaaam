@@ -119,6 +119,37 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &134424663
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 134424664}
+  m_Layer: 0
+  m_Name: Respawm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &134424664
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134424663}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -7.88, y: -0.76, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &419546564
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,6 +499,41 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &1971503473 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8682428772409373906, guid: e7810602734f54c4a99e692793c32a30, type: 3}
+  m_PrefabInstance: {fileID: 2539579821848575936}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1971503478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971503473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc7cd774075fed44e930c3e93c7eee51, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MaskFusion2D
+  fusionPoint: {fileID: 0}
+  fullMaskSprite: {fileID: 0}
+--- !u!114 &1971503479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1971503473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9921f1b45fb32a47aa034d3bc32156e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerRespawn2D
+  maxHealth: 100
+  currentHealth: 0
+  respawnPoint: {fileID: 134424664}
+  respawnDelay: 1.5
 --- !u!1001 &2539579821848575936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -478,11 +544,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6902380036208290964, guid: e7810602734f54c4a99e692793c32a30, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.19
+      value: -0.57
       objectReference: {fileID: 0}
     - target: {fileID: 6902380036208290964, guid: e7810602734f54c4a99e692793c32a30, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.98
+      value: -1.14
       objectReference: {fileID: 0}
     - target: {fileID: 6902380036208290964, guid: e7810602734f54c4a99e692793c32a30, type: 3}
       propertyPath: m_LocalPosition.z
@@ -523,7 +589,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8682428772409373906, guid: e7810602734f54c4a99e692793c32a30, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1971503478}
+    - targetCorrespondingSourceObject: {fileID: 8682428772409373906, guid: e7810602734f54c4a99e692793c32a30, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1971503479}
   m_SourcePrefab: {fileID: 100100000, guid: e7810602734f54c4a99e692793c32a30, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -533,3 +605,4 @@ SceneRoots:
   - {fileID: 1860863704}
   - {fileID: 2539579821848575936}
   - {fileID: 697612271}
+  - {fileID: 134424664}
