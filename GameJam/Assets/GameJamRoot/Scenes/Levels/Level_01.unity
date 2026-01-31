@@ -1152,6 +1152,14 @@ MonoBehaviour:
   target: {fileID: 1821229388}
   offset: {x: 0, y: 0}
   smoothTime: 0.15
+  useConfiner: 1
+  minBounds: {x: -43.2, y: -7.28}
+  maxBounds: {x: 61, y: 9.08}
+  useDeadZone: 1
+  topDeadZone: 2
+  bottomDeadZone: 0
+  showBoundsGizmos: 1
+  showDeadZoneGizmos: 1
 --- !u!1 &538470375
 GameObject:
   m_ObjectHideFlags: 0
