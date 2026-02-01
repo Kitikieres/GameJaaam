@@ -9,20 +9,26 @@ public class MaskFusion2D : MonoBehaviour
     public Transform fusionPoint;
     public Sprite fullMaskSprite;
 
+    [Header("Finish Line")]
+    public GameObject FinishLinePhy; // ← arrastrar FinishLine_Phy aquí
+
     private bool _isFused;
+
     private PlayerMovement _playerMovement;
     private SpriteRenderer _spriteRenderer;
     private CameraCinematic2D _cameraCinematic;
-    private PlayerRespawn2D _playerRespawn; // ← NUEVO
 
     private void Awake()
     {
         _playerMovement = GetComponent<PlayerMovement>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _cameraCinematic = Camera.main.GetComponent<CameraCinematic2D>();
-        _playerRespawn = GetComponent<PlayerRespawn2D>(); // ← NUEVO
 
         _timer = FindFirstObjectByType<Timer>();
+
+        // Desactivar meta al inicio
+        if (FinishLinePhy != null)
+            FinishLinePhy.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -36,6 +42,7 @@ public class MaskFusion2D : MonoBehaviour
     private IEnumerator FusionSequence(GameObject otherHalf)
     {
         _isFused = true;
+
         _playerMovement.SetMovementLocked(true);
 
         if (_cameraCinematic != null)
@@ -68,13 +75,10 @@ public class MaskFusion2D : MonoBehaviour
         if (_timer != null)
             _timer.ActivateSecondTimer();
 
-        // ← NUEVO: Actualizar punto de respawn a la posición actual
-        if (_playerRespawn != null)
-        {
-            _playerRespawn.UpdateRespawnPoint(transform.position);
-            Debug.Log("🎭 Punto de respawn actualizado a posición de la máscara");
-        }
+        // 🔥 ACTIVAR META
+        if (FinishLinePhy != null)
+            FinishLinePhy.SetActive(true);
 
-        Debug.Log("✨ FUSIÓN COMPLETA");
+        Debug.Log("✨ FUSIÓN COMPLETA → META ACTIVADA ✨");
     }
 }
