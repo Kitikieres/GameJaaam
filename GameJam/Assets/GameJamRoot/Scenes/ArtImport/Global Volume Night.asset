@@ -1,5 +1,39 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9164518083528421933
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 558a8e2b6826cf840aae193990ba9f2e, type: 3}
+  m_Name: ShadowsMidtonesHighlights
+  m_EditorClassIdentifier: Unity.RenderPipelines.Universal.Runtime::UnityEngine.Rendering.Universal.ShadowsMidtonesHighlights
+  active: 1
+  shadows:
+    m_OverrideState: 1
+    m_Value: {x: 0.5559026, y: 0.6427845, z: 1, w: -0.24464828}
+  midtones:
+    m_OverrideState: 1
+    m_Value: {x: 0.5834085, y: 0.73593825, z: 1, w: -0.18348621}
+  highlights:
+    m_OverrideState: 1
+    m_Value: {x: 0.72553235, y: 0.9245015, z: 1, w: -0.19877721}
+  shadowsStart:
+    m_OverrideState: 0
+    m_Value: 0
+  shadowsEnd:
+    m_OverrideState: 0
+    m_Value: 0.3
+  highlightsStart:
+    m_OverrideState: 0
+    m_Value: 0.55
+  highlightsEnd:
+    m_OverrideState: 0
+    m_Value: 1
 --- !u!114 &-6134238436069465376
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -64,10 +98,10 @@ MonoBehaviour:
     m_Value: 0.28
   contrast:
     m_OverrideState: 1
-    m_Value: 38.1
+    m_Value: 0
   colorFilter:
     m_OverrideState: 1
-    m_Value: {r: 0.71908766, g: 0.47007197, b: 0.877, a: 1}
+    m_Value: {r: 0.6845157, g: 0.511674, b: 0.797, a: 1}
   hueShift:
     m_OverrideState: 1
     m_Value: 0
@@ -89,3 +123,4 @@ MonoBehaviour:
   components:
   - {fileID: -1033895141798845334}
   - {fileID: -6134238436069465376}
+  - {fileID: -9164518083528421933}

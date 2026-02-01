@@ -36,7 +36,7 @@ MonoBehaviour:
   ApexHangTime: 0.011
   JumpBufferTime: 0.15
   JumpCoyoteTime: 0.3
-  DashTime: 0.15
+  DashTime: 0.25
   DashSpeed: 20
   TimeBtwDashesOnGround: 0.2
   ResetDashOnWallSlide: 1
